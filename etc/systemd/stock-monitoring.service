@@ -1,0 +1,30 @@
+[Unit]
+Description=Stock Monitoring Dashboard (FastAPI)
+After=network.target postgresql.service redis-server.service
+Wants=postgresql.service redis-server.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/stock-monitoring
+ExecStart=/usr/bin/python3 /root/stock-monitoring/main.py serve --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+# Health check
+ExecStartPre=/bin/sleep 2
+WatchdogSec=60
+
+# Resource limits
+MemoryMax=1G
+MemorySwapMax=0
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=stock-monitoring
+
+[Install]
+WantedBy=multi-user.target
