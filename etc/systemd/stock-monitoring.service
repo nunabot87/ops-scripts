@@ -8,9 +8,7 @@ Type=simple
 User=root
 WorkingDirectory=/root/stock-monitoring
 
-# Clean up zombie processes on port 8000 before starting
-ExecStartPre=/bin/bash -c 'lsof -ti :8000 | xargs kill -9 2>/dev/null; sleep 1'
-ExecStart=/usr/bin/python3 /root/stock-monitoring/main.py serve --host 127.0.0.1 --port 8000
+ExecStart=/usr/bin/python3 /root/stock-monitoring/main.py serve --host 127.0.0.1 --port 8001
 Restart=always
 RestartSec=10
 StartLimitIntervalSec=300

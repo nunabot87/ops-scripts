@@ -42,7 +42,7 @@ DISK_PCT=$(df / | awk 'NR==2 {gsub(/%/,""); print $5}')
 LOAD_1=$(cat /proc/loadavg | awk '{print $1}')
 PG_CONNECTIONS=$(PGPASSWORD="${DB_PASSWORD:-}" psql -h localhost -U "${DB_USER:-stock_app}" -d "${DB_NAME:-stock_monitoring}" -t -c "SELECT count(*) FROM pg_stat_activity;" 2>/dev/null | tr -d ' ' || echo "0")
 PG_DEAD_TUPLES=$(PGPASSWORD="${DB_PASSWORD:-}" psql -h localhost -U "${DB_USER:-stock_app}" -d "${DB_NAME:-stock_monitoring}" -t -c "SELECT COALESCE(sum(n_dead_tup),0) FROM pg_stat_user_tables;" 2>/dev/null | tr -d ' ' || echo "0")
-STOCK_API_UP=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 http://127.0.0.1:8000/api/stocks 2>/dev/null || echo "000")
+STOCK_API_UP=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 http://127.0.0.1:8001/api/stocks 2>/dev/null || echo "000")
 
 # Determine status
 STATUS="OK"
